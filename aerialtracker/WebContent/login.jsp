@@ -44,6 +44,16 @@
         .form-control.is-invalid {
             border-color: #dc3545;
         }
+        .signup-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .signup-link:hover {
+            text-decoration: underline;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -69,6 +79,7 @@
                             <div id="passwordError" class="invalid-feedback"></div>
                         </div>
                         <button type="submit" class="btn w-100">Login</button>
+                        <a href="register.jsp" class="signup-link">Don't have an account? Sign up</a>
                     </form>
                 </div>
             </div>

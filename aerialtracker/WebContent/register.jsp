@@ -44,6 +44,16 @@
         .form-control.is-invalid {
             border-color: #dc3545;
         }
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-link:hover {
+            text-decoration: underline;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -79,6 +89,7 @@
                             <div id="cpasswordError" class="invalid-feedback"></div>
                         </div>
                         <button type="submit" class="btn w-100">Register</button>
+                        <a href="login.jsp" class="login-link">Already have an account? Login</a>
                     </form>
                 </div>
             </div>
