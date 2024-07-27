@@ -62,7 +62,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <form action="/register" method="POST" onsubmit="return validateRegisterForm();">
+                    <form action="register_action.jsp" method="POST" onsubmit="return validateRegisterForm();">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email">
@@ -81,7 +81,7 @@
                         <div class="mb-3">
                             <label for="cpassword" class="form-label">Confirm Password</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="cpassword" name="cpassword">
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
                                 <span class="input-group-text" onclick="togglePasswordVisibility('cpassword', 'toggleCPassword')">
                                     <i id="toggleCPassword" class="bi bi-eye"></i>
                                 </span>

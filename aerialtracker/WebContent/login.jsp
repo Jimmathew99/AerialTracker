@@ -62,7 +62,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <form action="" method="POST" onsubmit="return validateLoginForm();">
+                    <form action="login_action.jsp" method="POST" onsubmit="return validateLoginForm();">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email">
