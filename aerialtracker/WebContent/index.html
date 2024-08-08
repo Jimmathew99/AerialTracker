@@ -7,7 +7,56 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <style>
+        #map {
+            height: 100%;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .card {
+            width: 475px; /* Fixed width for the card */
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Ensure no overflow */
+        }
+        .card-img-top {
+            width: 100%;
+            height: 280px; /* Fixed height */
+            object-fit: cover; /* Ensure image covers the container */
+            position: relative;
+        }
+        .card-body {
+            padding: 1rem;
+        }
+        /* Hide the default Leaflet popup container styles */
+        .leaflet-popup-content-wrapper {
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+        .leaflet-popup-tip-container {
+            display: none;
+        }
+        .leaflet-popup-content {
+            margin: 0;
+        }
+        .leaflet-popup-close-button {
+            display: none;
+        }
+        .airplane-icon {
+            width: 32px;
+            height: 32px;
+            background-size: cover;
+        }
+        
+        
+    </style>
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
@@ -32,7 +81,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+   
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -52,17 +101,9 @@
             <nav class="navbar bg-secondary navbar-dark">
                 <a href="index.html" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary">Aerial Tracker</h3>
+               
                 </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
-                    </div>
-                </div>
+               <a href="#" class="sidebar-toggler flex-shrink-0"><i class="fa fa-bars"></i></a>
                 <div class="navbar-nav w-100">
                     <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="element.html" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Elements</a>
@@ -70,15 +111,10 @@
                     <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div>
+                    <a href="login.jsp" class="btn btn-primary d-flex align-items-center">
+    <i class="fa fa-sign-in-alt me-2"></i>Login
+</a>
+                    
                 </div>
             </nav>
         </div>
@@ -86,17 +122,198 @@
 
         <!-- Content Start -->
         <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0"><i class="fa fa-bars"></i></a>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <a href="login.jsp" class="btn btn-primary">Login</a>
-                </div>
-            </nav>
-            <!-- Navbar End -->
+         
+            <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        let map = L.map('map').setView([20.5937, 78.9629], 5);
+
+        // Define tile layers
+        const baseLayers = {
+            "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }),
+            "Satellite": L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '&copy; <a href="https://www.esri.com/en-us/home">Esri</a> &copy; <a href="https://www.openstreetmap.org">OpenStreetMap</a> contributors'
+            }),
+            "CartoDB Positron": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.carto.com/attributions">CARTO</a>'
+            })
+        };
+
+        // Add default layer
+        baseLayers["OpenStreetMap"].addTo(map);
+        
+        // Add layer control
+        L.control.layers(baseLayers).addTo(map);
+        L.control.scale().addTo(map);
+
+        let aircraftMarkers = {};
+        let aircraftPaths = {};
+        let polylineVisible = {}; // To track visibility of each polyline
+
+        function fetchAircraftData() {
+            const lamin = 6.0; // Coordinates covering India
+            const lomin = 68.0;
+            const lamax = 37.0;
+            const lomax = 97.0;
+
+            const url = `/testproject/api/aircrafts?lamin=${lamin}&lomin=${lomin}&lamax=${lamax}&lomax=${lomax}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error fetching aircraft data:', data.error);
+                    } else {
+                        updateAircraftPositions(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching aircraft data:', error);
+                });
+        }
+
+        let currentPolyline = null; // Variable to track the currently visible polyline
+
+        function updateAircraftPositions(data) {
+            data.states.forEach(aircraft => {
+                const id = aircraft[0];
+                const latitude = aircraft[6];
+                const longitude = aircraft[5];
+                const altitude = aircraft[7];
+                const hexCode = aircraft[0];
+                const origin_country = aircraft[2];
+                const velocity = aircraft[9];
+                const callsign = aircraft[1];
+                const true_track = aircraft[10] || 0; // Default to 0 if true_track is null
+
+                getAircraftPhoto(hexCode).then(photoUrl => {
+                    const iconHtml = `
+                        <div class="airplane-icon" style="background-image: url(images/airplane.png); transform: rotate(${true_track}deg);"></div>
+                    `;
+
+                    if (!aircraftMarkers[id]) {
+                        // Create a new marker with a rotated icon
+                        const marker = L.marker([latitude, longitude], {
+                            icon: L.divIcon({
+                                className: 'airplane-icon-container',
+                                html: iconHtml,
+                                iconSize: [32, 32],
+                                iconAnchor: [16, 16]
+                            }),
+                            title: `Aircraft ${id}`
+                        }).addTo(map);
+
+                        const infoWindowContent = `
+                            <div class="card text-bg-dark">
+                                <div class="card-img-top">
+                                    <img src="${photoUrl || 'images/default.png'}" class="card-img-top" alt="Aircraft ${callsign}" onerror="this.onerror=null;this.src='images/default.png';">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${callsign || 'Unknown'}</h5>
+                                    <p class="card-text">
+                                        <strong>Country of Origin:</strong> ${origin_country}<br>
+                                        <strong>Altitude:</strong> ${altitude} m<br>
+                                        <strong>Velocity:</strong> ${velocity} m/s<br>
+                                        <strong>Track:</strong> ${true_track}°<br>
+                                        <strong>Latitude:</strong> ${latitude}<br>
+                                        <strong>Longitude:</strong> ${longitude}<br>
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        marker.bindPopup(infoWindowContent);
+
+                        marker.on('click', function() {
+                            if (currentPolyline) {
+                                // Hide the previously visible polyline
+                                map.removeLayer(currentPolyline);
+                            }
+
+                            if (currentPolyline === aircraftPaths[id]) {
+                                // If clicking on the same aircraft, hide its polyline
+                                currentPolyline = null;
+                            } else {
+                                // Show the new polyline
+                                aircraftPaths[id].addTo(map);
+                                currentPolyline = aircraftPaths[id];
+                            }
+                        });
+
+                        aircraftMarkers[id] = marker;
+
+                        // Create a new polyline for the aircraft path
+                        aircraftPaths[id] = L.polyline([[latitude, longitude]], { color: 'blue' });
+                        console.log(`New polyline created for aircraft ${id} at [${latitude}, ${longitude}]`);
+                    } else {
+                        // Update existing marker position and popup content
+                        aircraftMarkers[id].setLatLng([latitude, longitude]);
+                        aircraftMarkers[id].getPopup().setContent(`
+                            <div class="card text-bg-dark">
+                                <div class="card-img-top">
+                                    <img src="${photoUrl || 'images/default.png'}" class="card-img-top" alt="Aircraft ${callsign}" onerror="this.onerror=null;this.src='images/default.png';">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${callsign || 'Unknown'}</h5>
+                                    <p class="card-text">
+                                        <strong>Country of Origin:</strong> ${origin_country}<br>
+                                        <strong>Altitude:</strong> ${altitude} m<br>
+                                        <strong>Velocity:</strong> ${velocity} m/s<br>
+                                        <strong>Track:</strong> ${true_track}°<br>
+                                        <strong>Latitude:</strong> ${latitude}<br>
+                                        <strong>Longitude:</strong> ${longitude}<br>
+                                    </p>
+                                </div>
+                            </div>
+                        `);
+
+                        // Update the polyline with the new position
+                        aircraftPaths[id].addLatLng([latitude, longitude]);
+                        console.log(`Added new point to polyline for aircraft ${id} at [${latitude}, ${longitude}]`);
+                    }
+                });
+            });
+        }
+                
+
+        function getAircraftPhoto(hexCode) {
+            const url = `https://api.planespotters.net/pub/photos/hex/${hexCode}`;
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.photos && data.photos.length > 0) {
+                        const photo = data.photos[0];
+                        const photoUrl = photo.thumbnail_large ? photo.thumbnail_large.src : photo.thumbnail.src;
+                        return photoUrl;
+                    } else {
+                        return null;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error retrieving aircraft photo:', error);
+                    return null;
+                });
+        }
+
+        fetchAircraftData(); // Initial fetch
+        setInterval(fetchAircraftData, 10000); // Fetch every 45 seconds
+
+        // Hide all polylines initially
+        Object.keys(aircraftPaths).forEach(id => {
+            map.removeLayer(aircraftPaths[id]);
+        });
+
+        // Hide polyline when clicking on the map
+        map.on('click', function() {
+            if (currentPolyline) {
+                map.removeLayer(currentPolyline);
+                currentPolyline = null;
+            }
+        });
+    </script>
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -113,9 +330,7 @@
         </div>
         <!-- Content End -->
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
+      
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -127,6 +342,7 @@
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
