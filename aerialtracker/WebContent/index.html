@@ -117,7 +117,7 @@ html, body {
 .weather-card-container {
 	position: fixed;
 	top: 150px;
-	right: 0px; background-color : #343a40;
+	right: 45px; background-color : #343a40;
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 	padding: 20px;
@@ -130,6 +130,7 @@ html, body {
 	display: flex;
 	flex-direction: column;
 	background-color: #343a40;
+	
 }
 
 .weather-card-container h2 {
@@ -169,6 +170,32 @@ html, body {
 	background: none;
 	border: none;
 	box-shadow: none;
+}
+.weather-card-container.collapsed {
+    max-height: 30px;
+    overflow: hidden;
+    padding: 10px;
+}
+.toggle-button {
+    position: fixed;
+    top: 145px; /* Adjust based on your layout */
+    right: 18px;
+    background-color: #495057;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it stays on top */
+    border-radius: 50%; /* Make it circular */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.toggle-button:hover {
+    background-color: #343a40;
+    transform: scale(1.1); /* Slightly enlarges on hover */
+}
+
+.toggle-button.collapsed {
+    transform: rotate(180deg);
 }
 </style>
 <!-- Favicon -->
@@ -235,11 +262,12 @@ html, body {
 		<!-- Content Start -->
 		<div class="content">
 			<div id="map"></div>
-			<div id="weather-cards" class="weather-card-container">
-				<h2>Weather Conditions</h2>
-				<button id="toggle-button" class="toggle-button">&#x25B2;</button>
-				<!-- Up arrow chevron -->
-			</div>
+			<div id="weather-cards" class="weather-card-container collapsed">
+    <h2>Weather Conditions</h2>
+    <!-- Your weather cards will be inserted here -->
+</div>
+<button id="toggle-button" class="toggle-button">&#x25B2;</button> <!-- Up arrow chevron -->
+			
 			<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 			<script
 				src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -491,7 +519,6 @@ html, body {
                 });
             });
         }
-
         function getAircraftPhoto(hexCode) {
             const url = `https://api.planespotters.net/pub/photos/hex/${hexCode}`;
             return fetch(url)
@@ -534,22 +561,17 @@ html, body {
             const weatherCardsContainerElement = document.getElementById('weather-cards');
 
             // Use event delegation
-            weatherCardsContainerElement.addEventListener('click', (event) => {
-                if (event.target && event.target.id === 'toggle-button') {
-                    console.log('Toggle button clicked'); // Debugging line
-                    collapsed = !collapsed;
-                    if (collapsed) {
-                        weatherCardsContainerElement.classList.add('collapsed');
-                        event.target.innerHTML = '&#x25BC;'; // Down arrow chevron
-                    } else {
-                        weatherCardsContainerElement.classList.remove('collapsed');
-                        event.target.innerHTML = '&#x25B2;'; // Up arrow chevron
-                    }
-                }
+            const toggleButton = document.getElementById('toggle-button');
+            const weatherCardsContainer = document.getElementById('weather-cards');
+
+            toggleButton.addEventListener('click', function () {
+                weatherCardsContainer.classList.toggle('collapsed');
+                toggleButton.classList.toggle('collapsed');
+                toggleButton.innerHTML = weatherCardsContainer.classList.contains('collapsed') ? '&#x25BC;' : '&#x25B2;'; // Down arrow when collapsed
             });
+                    
         });
     </script>
-
 			<!-- Footer Start -->
 			<div class="container-fluid pt-4 px-4">
 				<div class="bg-secondary rounded-top p-4">
@@ -564,9 +586,6 @@ html, body {
 			<!-- Footer End -->
 		</div>
 		<!-- Content End -->
-
-
-
 		<!-- JavaScript Libraries -->
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script
