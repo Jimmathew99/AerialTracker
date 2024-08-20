@@ -1,0 +1,134 @@
+
+#map {
+	height: 100%;
+	width: 100%;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.weather-card-container {
+	position: fixed;
+	top: 150px;
+	left: 4px;
+	background-color: #343a40;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	max-height: 90vh;
+	overflow-y: auto;
+	width: 240px;
+	z-index: 1000;
+	font-family: 'Roboto', sans-serif;
+	transition: max-height 0.3s ease, padding 0.3s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+.weather-card-container h2 {
+	margin: 0 0 15px 0;
+	font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+}
+
+.collapsed {
+	max-height: 30px;
+	overflow: hidden;
+	padding: 10px;
+}
+
+.weather-card {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: none;
+	border-radius: 8px;
+	background-color: #495057;
+	color: #ffffff;
+	font-size: 14px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.weather-card h5 {
+	margin: 0 0 5px 0;
+	font-size: 16px;
+}
+
+.weather-card p {
+	margin: 5px 0;
+}
+
+.toggle-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: #212529;
+	border: none;
+	border-radius: 50%;
+	padding: 5px;
+	color: #ffffff;
+	cursor: pointer;
+	font-size: 16px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	transition: background-color 0.3s;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1001;
+}
+
+.airplane-icon {
+	width: 32px;
+	height: 32px;
+	background-size: cover;
+}
+
+.filter-container {
+	position: fixed;
+	top: 10px;
+	left: 4px;
+	background-color: #343a40;
+	border-radius: 10px;
+	padding: 10px;
+	z-index: 1000;
+	font-family: 'Roboto', sans-serif;
+}
+
+.filter-container select {
+	background-color: #495057;
+	color: #ffffff;
+	border: none;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+/* Ensure the popup content wrapper has a dark background and proper styling */
+.leaflet-popup-content-wrapper {
+    background: #343a40 !important; /* Dark background */
+    color: #ffffff !important; /* White text */
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px; /* Adjust width as needed */
+    max-width: 90vw; /* Responsive maximum width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure the image inside the popup scales correctly */
+.leaflet-popup-content-wrapper img {
+    width: 100% !important; /* Scale image to fit container */
+    height: auto !important; /* Maintain aspect ratio */
+    max-width: 100% !important; /* Adjust max width as needed */
+    max-height: 200px !important; /* Adjust max height as needed */
+    object-fit: cover; /* Ensure image covers the area without distortion */
+}
+
+
+.leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+}

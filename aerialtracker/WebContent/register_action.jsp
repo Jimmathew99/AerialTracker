@@ -15,7 +15,6 @@
 <title>Register Action</title>
 </head>
 <body>
-
 	<%
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
