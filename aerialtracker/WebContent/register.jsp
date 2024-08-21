@@ -1,9 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="utf-8">
     <title>Register Page</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -79,10 +83,10 @@
                             <div id="passwordError" class="invalid-feedback"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="cpassword" class="form-label">Confirm Password</label>
+                            <label for="confirmpassword" class="form-label">Confirm Password</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
-                                <span class="input-group-text" onclick="togglePasswordVisibility('cpassword', 'toggleCPassword')">
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmPassword">
+                                <span class="input-group-text" onclick="togglePasswordVisibility('confirmpassword', 'toggleCPassword')">
                                     <i id="toggleCPassword" class="bi bi-eye"></i>
                                 </span>
                             </div>
@@ -102,7 +106,7 @@
             var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/; // Must include at least one uppercase letter, one lowercase letter, one digit, and one special character, with a minimum length of 8 characters.
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
-            var cpassword = document.getElementById("cpassword").value;
+            var cpassword = document.getElementById("confirmpassword").value;
 
             // Clear previous error messages
             document.getElementById("emailError").style.display = "none";
@@ -110,7 +114,7 @@
             document.getElementById("cpasswordError").style.display = "none";
             document.getElementById("email").classList.remove("is-invalid");
             document.getElementById("password").classList.remove("is-invalid");
-            document.getElementById("cpassword").classList.remove("is-invalid");
+            document.getElementById("confirmpassword").classList.remove("is-invalid");
 
             if (!email) {
                 document.getElementById("emailError").textContent = "Please enter email ID";
@@ -143,8 +147,8 @@
             if (password !== cpassword) {
                 document.getElementById("cpasswordError").textContent = "Passwords must match";
                 document.getElementById("cpasswordError").style.display = "block";
-                document.getElementById("cpassword").classList.add("is-invalid");
-                document.getElementById("cpassword").focus();
+                document.getElementById("confirmpassword").classList.add("is-invalid");
+                document.getElementById("confirmpassword").focus();
                 return false;
             }
 
