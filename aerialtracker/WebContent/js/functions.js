@@ -35,6 +35,31 @@ let collapsed = false;
         baseLayers["OpenStreetMap"].addTo(map);
         L.control.layers(baseLayers).addTo(map);
         L.control.scale().addTo(map);
+        const SidebarToggleControl = L.Control.extend({
+            options: {
+                position: 'topleft'  // You can keep this as a fallback or remove it
+            },
+            onAdd: function(map) {
+                const container = L.DomUtil.create('div', 'custom-control');
+                const button = L.DomUtil.create('button', 'sidebar-toggler', container);
+                button.innerHTML = '<i class="fa fa-bars"></i>';
+                button.onclick = function() {
+                    document.getElementById('sidebar').classList.toggle('active');
+                    button.classList.toggle('active');
+                };
+                return container;
+            },
+            onRemove: function(map) {
+                // Nothing to do here
+            }
+        });
+
+        L.control.sidebarToggleControl = function(opts) {
+            return new SidebarToggleControl(opts);
+        };
+
+        // Add the control to the map
+        L.control.sidebarToggleControl().addTo(map);
 
         let aircraftMarkers = {};
         let aircraftPaths = {};
