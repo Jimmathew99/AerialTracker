@@ -139,134 +139,149 @@ let collapsed = false;
         }
 
         function updateAircraftPositions(data) {
-            data.forEach(aircraft => {
-                const id = aircraft[0];
-                const latitude = aircraft[6];
-                const longitude = aircraft[5];
-                const altitude = aircraft[7];
-                const hexCode = aircraft[0];
-                const origin_country = aircraft[2];
-                const velocity = aircraft[9];
-                const callsign = aircraft[1];
-                const true_track = aircraft[10] || 0;
+    data.forEach(aircraft => {
+        const id = aircraft[0];
+        const latitude = aircraft[6];
+        const longitude = aircraft[5];
+        const altitude = aircraft[7];
+        const hexCode = aircraft[0];
+        const origin_country = aircraft[2];
+        const velocity = aircraft[9];
+        const callsign = aircraft[1];
+        const true_track = aircraft[10] || 0;
 
-                getAircraftPhoto(hexCode).then(photoUrl => {
-                    const iconHtml = `
-                        <div class="airplane-icon" style="background-image: url(images/airplane.png); transform: rotate(${true_track}deg);"></div>
-                    `;
+        getAircraftPhoto(hexCode).then(photoUrl => {
+            const iconHtml = `
+                <div class="airplane-icon" style="background-image: url(images/airplane.png); transform: rotate(${true_track}deg);"></div>
+            `;
 
-                    if (!aircraftMarkers[id]) {
-                    	const marker = L.marker([latitude, longitude], {
-                    	    icon: L.divIcon({
-                    	        className: 'airplane-icon-container',
-                    	        html: iconHtml,
-                    	        iconSize: [32, 32],
-                    	        iconAnchor: [16, 16]
-                    	    }),
-                    	    title: `Aircraft ${id}`
-                    	}).addTo(map);
+            if (!aircraftMarkers[id]) {
+                const marker = L.marker([latitude, longitude], {
+                    icon: L.divIcon({
+                        className: 'airplane-icon-container',
+                        html: iconHtml,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    }),
+                    title: `Aircraft ${id}`
+                }).addTo(map);
 
-                    	const infoWindowContent = `
-                    	    <div class="leaflet-popup-content-wrapper">
-                    	        <img src="${photoUrl}" alt="Aircraft ${callsign}" style="width: 100%; max-height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='images/default.png';">
-                    	        <div class="leaflet-popup-content">
-                    	            <h5>${callsign || 'Unknown'}</h5>
-                    	            <p>
-                    	                <strong>Country of Origin:</strong> ${origin_country}<br>
-                    	                <strong>Altitude:</strong> ${altitude} m<br>
-                    	                <strong>Velocity:</strong> ${velocity} m/s<br>
-                    	                <strong>Track:</strong> ${true_track}°<br>
-                    	                <strong>Latitude:</strong> ${latitude}<br>
-                    	                <strong>Longitude:</strong> ${longitude}<br>
-                    	            </p>
-                    	        </div>
-                    	    </div>
-                    	`;
+                const infoWindowContent = `
+                    <div class="leaflet-popup-content-wrapper">
+                        <img src="${photoUrl}" alt="Aircraft ${callsign}" style="width: 100%; max-height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='images/default.png';">
+                        <div class="leaflet-popup-content">
+                            <h5>${callsign || 'Unknown'}</h5>
+                            <p>
+                                <strong>Country of Origin:</strong> ${origin_country}<br>
+                                <strong>Altitude:</strong> ${altitude} m<br>
+                                <strong>Velocity:</strong> ${velocity} m/s<br>
+                                <strong>Track:</strong> ${true_track}°<br>
+                                <strong>Latitude:</strong> ${latitude}<br>
+                                <strong>Longitude:</strong> ${longitude}<br>
+                            </p>
+                        </div>
+                    </div>
+                `;
 
-                    	marker.bindPopup(infoWindowContent);
+                marker.bindPopup(infoWindowContent);
 
+                marker.on('click', function() {
+                    if (currentPolyline) {
+                        map.removeLayer(currentPolyline);
+                    }
 
-                        marker.on('click', function() {
-                            if (currentPolyline) {
-                                map.removeLayer(currentPolyline);
-                            }
-
-                            if (currentPolyline === aircraftPaths[id]) {
-                                currentPolyline = null;
-                            } else {
-                                aircraftPaths[id].addTo(map);
-                                currentPolyline = aircraftPaths[id];
-                            }
-                        });
-
-                        aircraftMarkers[id] = marker;
-                        aircraftPaths[id] = L.polyline([[latitude, longitude]], { color: 'red' });
+                    if (currentPolyline === aircraftPaths[id]) {
+                        currentPolyline = null;
                     } else {
-                        aircraftMarkers[id].setLatLng([latitude, longitude]);
-                        aircraftMarkers[id].getPopup().setContent(`
-                            <div style="text-align: center;">
-                                <img src="${photoUrl}" alt="Aircraft ${callsign}" style="width: 100%; max-height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='images/default.png';">
-                                <h5>${callsign || 'Unknown'}</h5>
-                                <p>
-                                    <strong>Country of Origin:</strong> ${origin_country}<br>
-                                    <strong>Altitude:</strong> ${altitude} m<br>
-                                    <strong>Velocity:</strong> ${velocity} m/s<br>
-                                    <strong>Track:</strong> ${true_track}°<br>
-                                    <strong>Latitude:</strong> ${latitude}<br>
-                                    <strong>Longitude:</strong> ${longitude}<br>
-                                </p>
-                            </div>
-                        `);
-
-                        aircraftPaths[id].addLatLng([latitude, longitude]);
+                        aircraftPaths[id].addTo(map);
+                        currentPolyline = aircraftPaths[id];
                     }
                 });
-            });
-        }
+
+                aircraftMarkers[id] = marker;
+                aircraftPaths[id] = L.polyline([[latitude, longitude]], { color: 'red' });
+            } else {
+                aircraftMarkers[id].setLatLng([latitude, longitude]);
+                aircraftMarkers[id].getPopup().setContent(`
+                    <div style="text-align: center;">
+                        <img src="${photoUrl}" alt="Aircraft ${callsign}" style="width: 100%; max-height: 150px; object-fit: cover;" onerror="this.onerror=null;this.src='images/default.png';">
+                        <h5>${callsign || 'Unknown'}</h5>
+                        <p>
+                            <strong>Country of Origin:</strong> ${origin_country}<br>
+                            <strong>Altitude:</strong> ${altitude} m<br>
+                            <strong>Velocity:</strong> ${velocity} m/s<br>
+                            <strong>Track:</strong> ${true_track}°<br>
+                            <strong>Latitude:</strong> ${latitude}<br>
+                            <strong>Longitude:</strong> ${longitude}<br>
+                        </p>
+                    </div>
+                `);
+
+                aircraftPaths[id].addLatLng([latitude, longitude]);
+            }
+        });
+    });
+}
+        
 
 
-  const aircraftPhotoCache = {};
-let lastRequestTime = 0;
-const requestInterval = 100000; // 1 second delay between requests
+const aircraftPhotoCache = {};
+const requestQueue = [];
+let isRequestInProgress = false;
+const requestInterval = 500; // Time between processing requests (in milliseconds)
+
+function processRequestQueue() {
+    if (isRequestInProgress || requestQueue.length === 0) return;
+
+    isRequestInProgress = true;
+    const { hexCode, resolve } = requestQueue.shift();
+
+    const url = `https://api.planespotters.net/pub/photos/hex/${hexCode}`;
+
+    fetch(url)
+        .then(response => {
+            if (response.status === 429) {
+                console.error('Rate limit exceeded, retrying...');
+                requestQueue.push({ hexCode, resolve }); // Requeue the request
+                setTimeout(processRequestQueue, requestInterval); // Wait before retrying
+                return;
+            }
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.photos && data.photos.length > 0) {
+                const photo = data.photos[0];
+                const photoUrl = photo.thumbnail_large ? photo.thumbnail_large.src : photo.thumbnail.src;
+                aircraftPhotoCache[hexCode] = photoUrl; // Cache the result
+                resolve(photoUrl);
+            } else {
+                resolve('images/error.png'); // Fallback image
+            }
+        })
+        .catch(error => {
+            console.error('Error retrieving aircraft photo:', error);
+            resolve('images/error.png'); // Fallback image on error
+        })
+        .finally(() => {
+            isRequestInProgress = false;
+            setTimeout(processRequestQueue, requestInterval); // Wait before processing the next request
+        });
+}
 
 function getAircraftPhoto(hexCode) {
     if (aircraftPhotoCache[hexCode]) {
         return Promise.resolve(aircraftPhotoCache[hexCode]);
     }
 
-    const currentTime = Date.now();
-    const timeSinceLastRequest = currentTime - lastRequestTime;
-
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            const url = `https://api.planespotters.net/pub/photos/hex/${hexCode}`;
-            fetch(url)
-                .then(response => {
-                    if (response.status === 429) {
-                        console.error('Rate limit exceeded, retrying...');
-                        return null; // Handle retry logic if needed
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data && data.photos && data.photos.length > 0) {
-                        const photo = data.photos[0];
-                        const photoUrl = photo.thumbnail_large ? photo.thumbnail_large.src : photo.thumbnail.src;
-                        aircraftPhotoCache[hexCode] = photoUrl; // Cache the result
-                        resolve(photoUrl);
-                    } else {
-                        resolve('images/error.png'); // Fallback image
-                    }
-                })
-                .catch(error => {
-                    console.error('Error retrieving aircraft photo:', error);
-                    resolve('images/error.png'); // Fallback image on error
-                });
-
-            lastRequestTime = Date.now();
-        }, Math.max(requestInterval - timeSinceLastRequest, 0));
+    return new Promise((resolve) => {
+        requestQueue.push({ hexCode, resolve });
+        if (!isRequestInProgress) {
+            processRequestQueue();
+        }
     });
 }
+
        
 
         function filterAircraft() {
