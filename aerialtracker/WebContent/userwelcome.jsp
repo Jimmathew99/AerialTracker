@@ -87,7 +87,7 @@
 				<div class="navbar-nav w-100">
 					<a href="index.html" class="nav-item nav-link active"><i
 						class="fa fa-tachometer-alt me-2"></i>Tracking Map</a> <a
-						href="about.jsp" class="nav-item nav-link active"><i
+						href="about.jsp" class="nav-item nav-link "><i
 						class="fa fa-laptop me-2"></i>About</a> <a href="logout.jsp"
 						class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
 
