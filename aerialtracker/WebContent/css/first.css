@@ -91,3 +91,23 @@ html, body {
 	z-index: 1000; /* Ensure it's on top */
 }
 
+.leaflet-content-wrapper {
+	position: relative;
+}
+
+/* Style for the message */
+.message-box {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 15px;
+    background-color: #ff5733; /* Bright orange background */
+    color: #ffffff; /* White text for high contrast */
+    border: 2px solid #c70039; /* Darker red border for contrast */
+    border-radius: 8px; /* Slightly larger border radius */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+    z-index: 1000; /* Ensure it appears above other elements */
+    font-weight: bold; /* Bold text for emphasis */
+    font-size: 16px; /* Larger font size for better readability */
+}
