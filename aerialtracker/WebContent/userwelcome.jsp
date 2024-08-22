@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,18 +51,17 @@
 
 <body>
 	<%
-	HttpSession httpSession = request.getSession(false);
-	if (session != null) {
-	    String email = (String) session.getAttribute("user");
-	    if (email != null) {
-	        
-	    } else {
-	        out.println("No email found in session.");
-	    }
-	} else {
-	    out.println("Session is null.");
-	}
+		HttpSession httpSession = request.getSession(false);
+		if (session != null) {
+			String email = (String) session.getAttribute("user");
+			if (email != null) {
 
+			} else {
+				out.println("No email found in session.");
+			}
+		} else {
+			out.println("Session is null.");
+		}
 	%>
 	<div class="container-fluid position-relative d-flex p-0">
 		<!-- Sidebar Start -->
@@ -79,7 +78,7 @@
 							class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
 					</div>
 					<div class="ms-3">
-						<h6 class="mb-0"><%= (String) session.getAttribute("user") %></h6>
+						<h6 class="mb-0"><%=(String) session.getAttribute("user")%></h6>
 
 					</div>
 				</div>
@@ -87,17 +86,11 @@
 					class="fa fa-bars"></i></a>
 				<div class="navbar-nav w-100">
 					<a href="index.html" class="nav-item nav-link active"><i
-						class="fa fa-tachometer-alt me-2"></i>Dashboard</a> <a
-						href="element.html" class="nav-item nav-link"><i
-						class="fa fa-laptop me-2"></i>Elements</a> <a href="widget.html"
-						class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-					<a href="form.html" class="nav-item nav-link"><i
-						class="fa fa-keyboard me-2"></i>Forms</a> <a href="table.html"
-						class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-					<a href="chart.html" class="nav-item nav-link"><i
-						class="fa fa-chart-bar me-2"></i>Charts</a>
-						<a href="logout.jsp" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
-						
+						class="fa fa-tachometer-alt me-2"></i>Tracking Map</a> <a
+						href="about.jsp" class="nav-item nav-link active"><i
+						class="fa fa-laptop me-2"></i>About</a> <a href="logout.jsp"
+						class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"></i>Logout</a>
+
 
 				</div>
 			</nav>
