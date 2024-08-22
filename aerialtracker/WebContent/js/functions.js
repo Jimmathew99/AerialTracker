@@ -270,19 +270,23 @@ function getAircraftPhoto(hexCode) {
        
 
         function filterAircraft() {
-            const filterValue = document.getElementById('flight-filter').value;
-            for (const id in aircraftMarkers) {
-                const marker = aircraftMarkers[id];
-                const origin_country = aircraftData.find(aircraft => aircraft[0] === id)[2];
-                if (filterValue === 'all' ||
-                    (filterValue === 'domestic' && origin_country === 'India') ||
-                    (filterValue === 'international' && origin_country !== 'India')) {
-                    marker.addTo(map);
-                } else {
-                    map.removeLayer(marker);
-                }
-            }
+    const filterValue = document.getElementById('flight-filter').value;
+
+    for (const id in aircraftMarkers) {
+        const marker = aircraftMarkers[id];
+        const origin_country = aircraftData.find(aircraft => aircraft[0] === id)[2];
+        
+        // Apply filter logic based on the selected filter value
+        if (filterValue === 'all' ||
+            (filterValue === 'domestic' && origin_country === 'India') ||
+            (filterValue === 'international' && origin_country !== 'India')) {
+            marker.addTo(map);
+        } else {
+            map.removeLayer(marker);
         }
+    }
+}
+        
 
         fetchAircraftData();
         setInterval(fetchAircraftData, 10000);
