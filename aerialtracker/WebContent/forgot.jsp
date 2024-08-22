@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Login Page</title>
+    <title>Forgot Password</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -45,14 +45,14 @@
         .form-control.is-invalid {
             border-color: #dc3545;
         }
-        .signup-link {
+        .login-link {
             display: block;
             text-align: center;
             margin-top: 15px;
             color: #007bff;
             text-decoration: none;
         }
-        .signup-link:hover {
+        .login-link:hover {
             text-decoration: underline;
         }
     </style>
@@ -63,14 +63,14 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <form action="login_action.jsp" method="POST" onsubmit="return validateLoginForm();">
+                    <form action="forgot_password_action.jsp" method="POST" onsubmit="return validateForgotPasswordForm();">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email">
                             <div id="emailError" class="invalid-feedback"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label">New Password</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" id="password" name="password">
                                 <span class="input-group-text" onclick="togglePasswordVisibility('password', 'togglePassword')">
@@ -79,9 +79,8 @@
                             </div>
                             <div id="passwordError" class="invalid-feedback"></div>
                         </div>
-                        <button type="submit" class="btn w-100">Login</button>
-                        <a href="register.jsp" class="signup-link">Don't have an account? Sign up</a>
-                        <a href="forgot.jsp" class="signup-link">Forgot Password?</a>
+                        <button type="submit" class="btn w-100">Submit</button>
+                        <a href="login.jsp" class="login-link">Back to Login</a>
                     </form>
                 </div>
             </div>
@@ -89,7 +88,7 @@
     </div>
 
     <script type="text/javascript">
-        function validateLoginForm() {
+        function validateForgotPasswordForm() {
             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/; // Must include at least one uppercase letter, one lowercase letter, one digit, and one special character, with a minimum length of 8 characters.
             var email = document.getElementById("email").value;
@@ -102,7 +101,7 @@
             document.getElementById("password").classList.remove("is-invalid");
 
             if (!email) {
-                document.getElementById("emailError").textContent = "Please enter email ID";
+                document.getElementById("emailError").textContent = "Please enter your email ID";
                 document.getElementById("emailError").style.display = "block";
                 document.getElementById("email").classList.add("is-invalid");
                 document.getElementById("email").focus();
@@ -116,7 +115,7 @@
             }
 
             if (!password) {
-                document.getElementById("passwordError").textContent = "Please enter password";
+                document.getElementById("passwordError").textContent = "Please enter a new password";
                 document.getElementById("passwordError").style.display = "block";
                 document.getElementById("password").classList.add("is-invalid");
                 document.getElementById("password").focus();

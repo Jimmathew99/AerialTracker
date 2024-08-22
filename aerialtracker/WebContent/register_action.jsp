@@ -20,15 +20,7 @@ String confirmPassword = request.getParameter("confirmPassword");
 UserDao userDao = new UserDao();
 
 try {
-    // Check if the user is trying to register with the admin email
-    if ("admin@gmail.com".equals(email)) {
-        %>
-        <script type="text/javascript">
-        alert("Admin cannot register.");
-        window.location.href = "register.jsp";
-        </script>
-        <%
-    } else if (password == null || !password.equals(confirmPassword)) {
+    if (password == null || !password.equals(confirmPassword)) {
         // Check if passwords match
         %>
         <script type="text/javascript">
