@@ -225,7 +225,7 @@ let collapsed = false;
         }
 
 
-       const aircraftPhotoCache = {};
+  const aircraftPhotoCache = {};
 let lastRequestTime = 0;
 const requestInterval = 100000; // 1 second delay between requests
 
